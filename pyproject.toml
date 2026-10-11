@@ -1,0 +1,43 @@
+[project]
+name = "xavad"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "clip",
+    "einops==0.7.0",
+    "huggingface-hub==1.28.0",
+    "ipykernel==6.31.0",
+    "matplotlib==3.7.2",
+    "moviepy==1.0.3",
+    "numpy==1.26.4",
+    "ollama>=0.6.3",
+    "opencv-python==4.11.0.86",
+    "pandas==1.5.3",
+    "pillow==12.3.0",
+    "pydantic==2.14.1",
+    "rfdetr==1.7.1",
+    "safetensors==0.8.0",
+    "sahi==0.11.36",
+    "scikit-learn==1.4.1.post1",
+    "scipy==1.10.1",
+    "supervision==0.28.0",
+    "tokenizers==0.22.2",
+    "torch==2.5.1",
+    "torchaudio==2.5.1",
+    "torchvision==0.20.1",
+    "tqdm==4.65.0",
+    "transformers==5.15.1",
+    "ultralytics==8.4.52",
+]
+
+[project.scripts]
+xavad = "xavad:main"
+
+[build-system]
+requires = ["uv_build>=0.13.0,<0.14.0"]
+build-backend = "uv_build"
+
+[tool.uv.sources]
+clip = { git = "https://github.com/openai/CLIP.git" }
