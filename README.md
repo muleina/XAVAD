@@ -76,14 +76,28 @@ We thank and give credit to the public data sets and source codes for the models
 
 
 ## Installation
+   
+1. Clone repository: `git clone https://github.com/muleina/XAVAD.git && cd XAVAD`.
 
-    # Clone the repo.
-    git clone https://github.com/muleina/XAVAD.git && cd XAVAD
+2. Install dependencies:`Ollama`, following [Windowws](https://ollama.com/download/windows), [macOs](https://ollama.com/download/mac), and [Linux](https://ollama.com/download/linux).
 
-    # Anaconda install options: using yml
-    conda env create -f environment.yml
+3. Recommend to setup and install CUDA pytorch with [anaconda](https://www.anaconda.com/) following the [pytorch installation instructions](https://pytorch.org/get-started/locally/).
 
-    # The setup configurations of the XAVAD are given in the config/config.py file.
+4. Anaconda install options using yaml
+    ```
+    conda env create -f environment.yaml
+    ```
+    
+5. Alternatively, Install using `setup.py` in an existing enviroment:
+    ```
+    pip install -e .
+    ```
+    or:
+    ```
+    pip install git+https://github.com/muleina/XAVAD.git
+    ```
+
+ # The setup configurations of the XAVAD are given in the `config/config.py` file.
 
 
 ## Notebooks
