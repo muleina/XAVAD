@@ -1,0 +1,83 @@
+{
+    "nonviolence": {
+        "description": "Baseline non-event pedestrian activity",
+        "risk_level": "none",
+        "prompts": [
+            "people walking normally",
+            "pedestrians moving calmly",
+            "people standing and talking",
+            "normal activity in a public space",
+            "people passing by peacefully"
+        ]
+    },
+    "abuse": {
+        "description": "One-sided physical harm between individuals",
+        "risk_level": "high",
+        "prompts": [
+            "One person hitting another at close range",
+            "A person pushing another against a wall",
+            "A person grabbing and pulling another forcefully",
+            "One person standing over another and striking downward",
+            "A person cornering another and delivering blows"
+        ]
+    },
+    "car_accident": {
+        "description": "Traffic collision or crash",
+        "risk_level": "high",
+        "prompts": [
+            "a car accident on a road",
+            "vehicles crashing into each other",
+            "a traffic collision with damaged cars",
+            "a car crash with debris on the road",
+            "vehicles involved in a serious accident"
+        ]
+    },
+    "explosion": {
+        "description": "Explosion or blast event",
+        "risk_level": "critical",
+        "prompts": [
+            "an explosion with fire and smoke",
+            "a sudden blast causing debris and flames",
+            "a large explosion in an outdoor area",
+            "explosion with shockwave and smoke cloud",
+            "detonation causing fire and debris"
+        ]
+    },
+    "fight": {
+        "description": "Observable physical violence between people",
+        "risk_level": "high",
+        "prompts": [
+            "a violent physical fight between people",
+            "multiple people punching and kicking each other",
+            "people engaged in aggressive physical confrontation",
+            "a street fight with people hitting each other",
+            "violent human interaction with physical attacks"
+        ]
+    },
+    "riot": {
+        "description": "Large-scale violent public disturbance",
+        "risk_level": "critical",
+        "prompts": [
+            "a violent riot with multiple people",
+            "a crowd engaging in violent disorder",
+            "people throwing objects and fighting in a crowd",
+            "large group involved in violent unrest",
+            "riot with fire, chaos, and aggressive behavior"
+        ]
+    },
+    "shooting": {
+        "description": "Person visibly holding a firearm or shooting",
+        "risk_level": "high",
+        "prompts": [
+            "a person holding a gun",
+            "someone carrying a firearm in their hands",
+            "a person aiming a gun",
+            "a visible handgun held by a person",
+            "a rifle or gun held by an individual",
+            "a person shooting a gun",
+            "a firearm being discharged",
+            "a person firing a weapon",
+            "gunshots with smoke and recoil"
+        ]
+    }
+}

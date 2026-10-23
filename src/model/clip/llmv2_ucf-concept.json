@@ -1,0 +1,160 @@
+{
+    "normal_event": {
+        "description": "Baseline non-event pedestrian activity",
+        "risk_level": "none",
+        "prompts": [
+            "people walking normally",
+            "pedestrians moving calmly",
+            "people standing and talking",
+            "normal activity in a public space",
+            "people passing by peacefully"
+        ]
+    },
+    "abuse": {
+        "description": "One-sided physical harm between individuals",
+        "risk_level": "high",
+        "prompts": [
+            "One person hitting another at close range",
+            "A person pushing another against a wall",
+            "A person grabbing and pulling another forcefully",
+            "One person standing over another and striking downward",
+            "A person cornering another and delivering blows"
+        ]
+    },
+    "arrest": {
+        "risk_level": "medium",
+        "description": "Physical restraint by uniformed or authority-like individuals",
+        "prompts": [
+            "Uniformed individuals restraining a person",
+            "A person held against a wall with arms controlled by police officers",
+            "Multiple police officers forcing one person to the ground",
+            "A person restrained beside a vehicle",
+            "A restrained individual escorted away"
+        ]
+    },
+    "arson": {
+        "description": "Intentional setting of fire",
+        "risk_level": "high",
+        "prompts": [
+            "a person setting a building on fire",
+            "flames starting due to human action",
+            "a person igniting an object intentionally",
+            "fire being started by a person",
+            "someone pouring fuel and starting a fire"
+        ]
+    },
+    "assault": {
+        "risk_level": "high",
+        "description": "Sudden aggressive physical attack",
+        "prompts": [
+            "A sudden punch thrown at another person",
+            "A person lunging forward and striking",
+            "A close-range physical attack without warning",
+            "A person knocking another to the ground",
+            "An abrupt violent strike causing people to recoil"
+        ]
+    },
+    "burglary": {
+        "description": "Unauthorized entry and taking of property (visual evidence only)",
+        "risk_level": "high",
+        "prompts": [
+            "a person breaking into a building",
+            "someone forcing entry through a door or window",
+            "a person entering a property unlawfully",
+            "a person stealing items inside a building",
+            "someone carrying stolen objects out of a building"
+        ]
+    },
+    "explosion": {
+        "description": "Explosion or blast event",
+        "risk_level": "critical",
+        "prompts": [
+            "an explosion with fire and smoke",
+            "a sudden blast causing debris and flames",
+            "a large explosion in an outdoor area",
+            "explosion with shockwave and smoke cloud",
+            "detonation causing fire and debris"
+        ]
+    },
+    "fighting": {
+        "description": "Observable physical violence between people",
+        "risk_level": "high",
+        "prompts": [
+            "a violent physical fight between people",
+            "multiple people punching and kicking each other",
+            "people engaged in aggressive physical confrontation",
+            "a street fight with people hitting each other",
+            "violent human interaction with physical attacks"
+        ]
+    },
+    "road_accident": {
+        "description": "Traffic collision or crash",
+        "risk_level": "high",
+        "prompts": [
+            "a car accident on a road",
+            "vehicles crashing into each other",
+            "a traffic collision with damaged cars",
+            "a car crash with debris on the road",
+            "vehicles involved in a serious accident"
+        ]
+    },
+    "robbery": {
+        "risk_level": "high",
+        "description": "Forceful taking of property from a person",
+        "prompts": [
+            "A person forcefully taking items from another",
+            "A bag pulled from someone\u2019s hands",
+            "A person blocking another while grabbing belongings",
+            "A person cornered while items are taken",
+            "Aggressive confrontation over personal property"
+        ]
+    },
+    "shooting": {
+        "description": "Person visibly holding a firearm or shooting",
+        "risk_level": "high",
+        "prompts": [
+            "a person holding a gun",
+            "someone carrying a firearm in their hands",
+            "a person aiming a gun",
+            "a visible handgun held by a person",
+            "a rifle or gun held by an individual",
+            "a person shooting a gun",
+            "a firearm being discharged",
+            "a person firing a weapon",
+            "gunshots with smoke and recoil"
+        ]
+    },
+    "shoplifting": {
+        "risk_level": "medium",
+        "description": "Concealed removal of items inside a store",
+        "prompts": [
+            "A person hiding store items in clothing",
+            "Items placed into a bag from a shelf",
+            "A shopper concealing merchandise quickly",
+            "A person pocketing items in a store aisle",
+            "A person leaving with concealed goods"
+        ]
+    },
+    "stealing": {
+        "risk_level": "medium",
+        "description": "Taking unattended property without confrontation",
+        "prompts": [
+            "A person taking unattended property",
+            "A bag picked up and carried away",
+            "A person grabbing items from a table",
+            "An individual removing items from an open vehicle",
+            "Quick removal of nearby belongings"
+        ]
+    },
+    "vandalism": {
+        "risk_level": "medium",
+        "description": "Intentional damage to property or surroundings",
+        "prompts": [
+            "A person smashing windows or fixtures",
+            "A person spray painting walls or surfaces",
+            "Repeated kicking of street objects",
+            "Damage to parked vehicles",
+            "Intentional destruction of public property"
+        ]
+    }
+}
