@@ -525,11 +525,17 @@ class AnonymizerHub():
         islist = isinstance(frames, list)
         if not islist:
             frames = [frames] 
-        frames_anonymized = util.multiprocessor_speedup(self.anonymize_frame, 
-                                                input_data=frames,
-                                                **kwargs,
-                                                num_workers=min(int(os.cpu_count()), 16)
-                                                )
+
+        try:
+            frames_anonymized = util.multiprocessor_speedup(self.anonymize_frame, 
+                                                    input_data=frames,
+                                                    **kwargs
+                                                  )
+        except Exception as ex:
+            # fuse error for first inference during mp for YOLO         
+            print(f"multiprocessor failed: {ex}. rollbacking to single processor.")
+            frames_anonymized = list(map(lambda x: self.anonymize_frame(x, **kwargs), util.tqdm(frames)))
+         
         if not islist:
             return frames_anonymized[0]
         return frames_anonymized
@@ -590,16 +596,17 @@ class ANInference():
                                         overlap_height_ratio=0.2,
                                         overlap_width_ratio=0.2
                                         )
+                    
         kwargs_detector_method = {"seg_type": "instant", 
                                     "classes": detection_classes,
                                     "detector_version":detector_version, 
                                     "detection_thr":detection_thr, 
                                     "imgsz":detector_imgsz, 
                                     "sahi_kwargs":sahi_kwargs,
-                                    "device":device}
+                                    "device":device} | kwargs_detector_method
         
-        kwargs_anony_method = an_transform_kwargs.get("kwargs_anony_method", {}) | {"preprocessors_list": preprocessors_list, "postprocessors_list": postprocessors_list}
-                
+        kwargs_anony_method = an_transform_kwargs.get("kwargs_anony_method", {}) | {"preprocessors_list": preprocessors_list, "postprocessors_list": postprocessors_list} | kwargs_anony_method
+        
         self.anonyObj = AnonymizerHub(method=an_transform_kwargs["anony_method"], 
                             detector_name="image" if self.anony_method == "no-an" else detector_name, 
                             kwargs_anony_method=kwargs_anony_method,
@@ -607,8 +614,9 @@ class ANInference():
                             target_resolution=None,
                             isreset_cache=kwargs.get("isreset_cache", True)
                             )
-    # @util.timer_eval
-    # @util.process_logger
+        
+    @util.timer_eval
+    @util.process_logger
     def inference(self, frames: Union[np.ndarray, List[np.ndarray]], **kwargs) -> tuple[bool, Optional[np.ndarray]]:
         """
         Run anonymization on input frames.

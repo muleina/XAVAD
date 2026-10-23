@@ -241,8 +241,7 @@ class PerFrameObjectDetector():
         if self.detector_name is None:
             print("detector_name: ", self.detector_name)
             return
-        
-        self.detector_name = self.kwargs.get('detector_name', 'yolo')
+
         self.seg_type = self.kwargs.get('seg_type', 'instant')
         self.detector_version = self.kwargs.get('detector_version', None)
         self.detector_version_kwargs = self.kwargs.get('detector_version_kwargs', {})
@@ -252,10 +251,9 @@ class PerFrameObjectDetector():
         self.seg_model_kwargs.update(self.kwargs)
         device = self.seg_model_kwargs.get('device', 'cuda')
 
+        print("model: ", self.seg_model_name)
         if self.detector_name in ['yolo']:
             from ultralytics import YOLO
-            print("#"*30)
-            print("model: ", self.seg_model_name)
             # YOLO-pretrained Instance segmentation model
             self.model = YOLO(f'{self.seg_model_name}.pt') # load a pretrained model
             
@@ -409,7 +407,6 @@ class PerFrameObjectDetector():
             if boolean_masks is not None:
                 return frame.astype("uint8"), boolean_masks[np.newaxis,...]
         else:
-            frame_res = copy.copy(frame)
             boolean_masks = [np.zeros(frame.shape, dtype=np.uint8)]
-        return frame_res, boolean_masks
+        return frame.astype("uint8"), boolean_masks
     

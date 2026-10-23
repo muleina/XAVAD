@@ -20,12 +20,14 @@ import cv2
 import moviepy.editor as mpy
 import time
 from pathlib import Path
+from tqdm import tqdm
 import PIL
 from typing import List, Tuple, Dict, Union, Optional, Literal, Any
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 ###########################################
 # Util Classes
+
 class ProcTimer():
     """
     Utility class for measuring process time.
@@ -227,6 +229,7 @@ class VideoCameraThreadQueue:
 ###########################################
 ###########################################
 # Start Decorators
+
 def timer_eval(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
@@ -551,6 +554,17 @@ def save_video(frame_list: list, fps: int, filename: str, filedirpath: str) -> N
     mpyVidObj.write_videofile(filepath, fps=fps, codec="libx264")
     mpyVidObj.close()
 
+def show_video_on_nb(frame_list: list, video_meta: dict, input_format: str = "BGR", width :int = 480, height: int = 360) -> None:
+    mpyVidObj = mpy.ImageSequenceClip(list(map(lambda x: cv2.cvtColor(x, cv2.COLOR_BGR2RGB).astype("uint8") if input_format == "BGR" else x, 
+                                                                frame_list)), 
+                                                                fps=video_meta["fps"]
+                                                                )
+    return mpyVidObj.ipython_display(width=width, height=height, 
+                            fps=video_meta["fps"], 
+                            maxduration=video_meta["duration"] + 1, 
+                            autoplay=True
+                            )
+
 def save_json(filename: Optional[str] = None, data: Dict[Any, Any] = {}, filepath: Optional[str] = None, sort_keys: bool = True, verbose=0):
     """save dict as json 
 
@@ -598,6 +612,25 @@ def load_json(filename: Optional[str] = None, filepath: Optional[str] = None, ve
     # print(data_dict)
     return data_dict
 
+def save_npdata(filename: Optional[str] = None, data: np.ndarray = None, filepath: Optional[str] = None, verbose: bool = False):
+    if filename is not None:
+        assert filepath is not None
+        filepath = Path(filepath) / filename
+
+    filepath = Path(filepath) if isinstance(filepath, str) else filepath
+    if verbose: print('saving ', filepath, end='\r')
+    np.save(filepath, data)
+
+
+def load_npdata(filename=None, filepath=None, verbose=0):
+    if filename is not None:
+        assert filepath is not None
+        filepath = Path(filepath) / filename
+
+    filepath = Path(filepath) if isinstance(filepath, str) else filepath
+    if verbose: print('loading ', filepath, end='\r')
+    return np.load(filepath, allow_pickle=True)
+
 def multiprocessor_speedup(func, *args, input_data: List[Any], num_workers: int = 4, keep_order: bool = True, **kwargs):
     
     with ThreadPoolExecutor(max_workers=min(num_workers, 16)) as pool:
@@ -620,3 +653,4 @@ def multiprocessor_speedup(func, *args, input_data: List[Any], num_workers: int 
                     pool.shutdown(wait=False, cancel_futures=True)  
 
     return results
+    

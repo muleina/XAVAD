@@ -35,17 +35,16 @@ class AnalysisScore(BaseModel):
 class ADXAIVLMInference():
         
     def __init__(self, **kwargs):
-        self.model = kwargs.get("model", "gemma3:latest") # more accurate
-        self.keep_alive = kwargs.get("keep_alive", -1)  #keeps it loaded indefinitely until manually unloaded from memory. This ensures the model stays in memory indefinitely rather than unloading after the default 5 minutes of inactivity.
-
+        self.model = kwargs.get("model", "blaifa/InternVL3_5:4B")
+        self.keep_alive = kwargs.get("keep_alive", -1)  
+        
         print("Loading VLM model...")
-        ollama_chat(model=self.model, messages=[], keep_alive=self.keep_alive) # An empty message list triggers a load without generating a response
+        ollama_chat(model=self.model, messages=[], keep_alive=self.keep_alive)
         
         self.set_config(**kwargs)
         print("*"*50)
     
     def set_config(self, **kwargs):
-        self.isasync = kwargs.get("isasync", False)
         self.num_frames = kwargs.get("num_frames", 8) 
         self.target_resolution = kwargs.get("target_resolution", (240, 240))
         self.prompt_json_filename = kwargs.get("prompt_json_filename", "pmt_v1.json")
@@ -69,17 +68,15 @@ class ADXAIVLMInference():
 
         print(f"system prompt length: {len(self.prompt_system['content'])}")
         print(f"user prompt length: {len(self.prompt_user_questions)}")
-        if self.isasync:
-            raise NotImplementedError
-        else:
-            self.inference_func = self.ollama_query_vlm
+
+        self.inference_func = self.ollama_query_vlm
                     
-    def extract_and_encode_video_frames_base64(self, video_frames, num_frames=None, isb64encode=True, **kwargs):
+    def extract_and_encode_video_frames_base64(self, video_frames: List[np.ndarray], num_frames: Optional[int] = None, isb64encode: bool = True, **kwargs):
         
         total = len(video_frames)
         indices = np.linspace(0, total - 1, total if num_frames is None else min(total, num_frames)).astype(int)
         frames = []
-        print(f"isb64encode: {isb64encode}, video_frames: {video_frames[0].shape}, total: {total}, indices:{len(indices)}")
+        # print(f"isb64encode: {isb64encode}, video_frames: {video_frames[0].shape}, total: {total}, indices:{len(indices)}")
         
         for idx in indices:
             frame = video_frames[idx]
@@ -90,10 +87,10 @@ class ADXAIVLMInference():
             else:
                 frames.append(frame) # if frame is filepath
         
-        print(f"frames: {len(frames)}, indices:{len(indices) }")
+        # print(f"frames: {len(frames)}, indices:{len(indices) }")
         return frames
 
-    def prepare_payload(self, frame_list, isb64encode=True, **kwargs):
+    def prepare_payload(self, frame_list: List[np.ndarray], isb64encode: bool = True, **kwargs):
         payload = {
                     "model": self.model,
                     "messages": [
@@ -117,8 +114,6 @@ class ADXAIVLMInference():
 
         return payload
     
-    # @util.timer_eval
-    # @util.process_logger
     def ollama_query_vlm(self, *args, **kwargs):
         vlm_response = None
         try:
@@ -146,10 +141,10 @@ class ADXAIVLMInference():
             vlm_response = vlm_response.model_dump()
 
         except (ValidationError, json.JSONDecodeError) as ex:
-            print(f"Extraction failed. Raw output received:\n{raw_response}")
-            print(f"Validation Error: {ex}")
+            # print(f"Extraction failed. Raw output received:\n{raw_response}")
+            # print(f"Validation Error: {ex}")
             try:
-                print("truncation check: ", "{" in raw_response, " " , '"}' not in raw_response)
+                # print("truncation check: ", "{" in raw_response, " " , '"}' not in raw_response)
                 if  "{" in vlm_response and not vlm_response.replace(" ", "").endswith('"}'):
                     if vlm_response.endswith('"'):
                         vlm_response += '}'
@@ -168,8 +163,10 @@ class ADXAIVLMInference():
                 print("Failed to parse VLM response as JSON. Set response to None.")
                 vlm_response = None
         return vlm_response
-    
-    def inference(self, frame_list, **kwargs):
+
+    @util.timer_eval
+    @util.process_logger
+    def inference(self, frame_list: List[np.ndarray], **kwargs):
         results = self.inference_func(frame_list, **kwargs)
         return results
       

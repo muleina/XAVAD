@@ -12,25 +12,19 @@ import argparse
 import sys, gc, os, io
 import numpy as np, pandas as pd
 import torch, gc, cv2
-from tqdm import tqdm
-import seaborn as sns; sns.set()
 import matplotlib.pyplot as plt
 import moviepy.editor as mpy
-from PIL import Image
 import clip as MULTI_MODAL_CLIP
-from torch.utils.data import DataLoader
 import torch.nn.functional as F
 import torchvision.transforms as T
 from torchvision.transforms import Compose, Resize, ToTensor, Normalize, InterpolationMode
 from typing import List, Tuple, Union, Optional, Literal, Dict
-
 import supervision as sv
-from ultralytics.utils.plotting import Annotator
 import scipy.ndimage as ndi
 from ultralytics.engine.results import Results
 
 import utilities as util
-from xai_video_clip_interface_v3 import ADXAIDetector
+from xai_vad_zsac_interface import ADXAIDetector
 
 
 def visualize_grad_cam_per_image(img_pil, filtered_grad_heatmaps, fig_titles=None, fig_scores=None, fig_rows=1, **kwargs):
@@ -400,6 +394,8 @@ class ADXAIMAPDetector():
                                         device=device
                                         )
     
+    # @util.timer_eval
+    # @util.process_logger
     def inference(self, image_pil, ad_class_names_id_topk: int, **kwargs):
         isget_map = kwargs.get("isget_map", False)
         map_score_thr_dict = kwargs.pop("map_score_thr_dict", self.map_score_thr_dict_default)
@@ -432,12 +428,18 @@ class GRAD4VAD_XAI_PPA():
     def __init__(self, xai_clip_modelname: str = "ViT-L/14",  device: Literal["cuda", "cpu"] = "cuda", **kwargs):
     
         # setup models
-        self.ADXAIObj = ADXAIDetector(xai_clip_modelname=xai_clip_modelname, 
+        ADXAIObj = kwargs.get('ADXAIObj', None)
+        if ADXAIObj is None:
+            self.ADXAIObj = ADXAIDetector(xai_clip_modelname=xai_clip_modelname, 
                                         pooling_method="max", 
                                         isreturn_max_indices=True,
                                         device=device,
                                         **kwargs
                                      )
+        else:
+            self.ADXAIObj = ADXAIObj
+            self.ADXAIObj.isreturn_max_indices = True
+            self.ADXAIObj.pooling_method = "max"
 
         self.model =  ADXAIMAPDetector(objVADXAIModel=self.ADXAIObj, device=device)
 
@@ -801,28 +803,11 @@ class GRAD4VAD_XAI_PPA():
             image_pil.thumbnail(resize_wh, util.PIL.Image.Resampling.LANCZOS)
         
         image_arr = np.asarray(image_pil)
-        # show_image(image_arr, isplot=isplot)
-        # Get windows with a specific padding value (e.g., 0)
         print(f"image_arr: {image_arr.shape}")
         print(f"patch_size: {patch_size}")
         win_size = (patch_size, patch_size)
         steps = (step_size, step_size)
         patches, p_positions, _ = self.get_sliding_windows_no_padding(image_arr, win_size, steps)
-        # show_image(util.plot_image_grid(patches, 1, len(patches), border=1), isplot=self.isplot)
-            
-        # fig_patches = []
-        # filtered_grad_heatmaps_patches = []
-        # for patch in patches:
-        #     # print(f"patch: {patch.shape}")
-        #     fig, filtered_grad_heatmap = self.get_xai_heatmap(patch, xai_class_idx, 
-        #                                                                 isget_map=True, resize_wh=None, 
-        #                                                                 map_score_thr_dict=map_score_thr_dict, 
-        #                                                                 grad_mode=grad_mode)
-                
-        #     # print(patch.shape, fig.size, filtered_grad_heatmap.shape)
-        #     # show_image(fig)
-        #     fig_patches.append(np.asarray(fig))
-        #     filtered_grad_heatmaps_patches.append(filtered_grad_heatmap)    
         
         patched_results = util.multiprocessor_speedup(self.get_xai_heatmap, 
                                                         xai_class_idx,
@@ -845,31 +830,15 @@ class GRAD4VAD_XAI_PPA():
         filtered_grad_heatmaps = self.reconstruct_from_windows_no_padding(filtered_grad_heatmaps_patches, p_positions, original_size, win_size, merge_mode="max").astype("uint8")
         filtered_grad_heatmap = np.asarray(util.PIL.Image.fromarray(filtered_grad_heatmaps).resize(imsize)) # asarray() make is immutable, so need copy
             
-        # show_image(fig, isplot=isplot)
-        # show_image(util.PIL.Image.fromarray(filtered_grad_heatmaps), isplot=isplot)
-        
         return fig, filtered_grad_heatmap
-    
-        # yolo_boxes = self.heatmap_to_boxes_fast(torch.from_numpy(filtered_grad_heatmaps), threshold=conf, pool_kernel=3, class_id=0, ismultibox=self.ismultibox, multi_box_alg="connected")
-        
-        # if len(yolo_boxes) > 0:
-        #     results = self.to_yolo_results(np.asarray(fig), yolo_boxes, class_id_name_mapper={0: xai_cat_name})
-        #     # show_image(results.plot(), isplot=isplot)
-        #     boxes_xyxy = self.get_max_area_box(results, **kwargs)
-        # else:
-        #     boxes_xyxy = []
-        
-        # return boxes_xyxy, fig
 
     def ppa_patch_clipcat_gradmap_xai_focus(self, image_pil, xai_class_idx: int, map_score_thr_dict: Dict[str, Union[int, float, None]], resize_wh: Union[List[int], Tuple[int]] = (448, 448), patch_size: int = 448, step_size: int = 336, **kwargs):
         print(f"Running auto-focus ppa_patch_clipcat_gradmap_xai...")
         grad_mode = kwargs.get("grad_mode", "grad_eclip")
-        isplot = kwargs.get("isplot", False)
         
         image_arr = np.asarray(image_pil)
         fig = image_pil.copy()
         imsize = fig.size
-        
         win_size = (patch_size, patch_size)
         steps = (step_size, step_size)
         _image_pil = image_pil.copy()
@@ -877,54 +846,32 @@ class GRAD4VAD_XAI_PPA():
             _image_pil.thumbnail(resize_wh, util.PIL.Image.Resampling.LANCZOS) 
         _image_arr = np.asarray(_image_pil)
         patches, p_positions, _ = self.get_sliding_windows_no_padding(_image_arr, win_size, steps)
-        # len(patches)
-        # util.plot_image_grid(patches, 1, len(patches), border=1)
         similarity_scores = self.ADXAIObj.inference(patches)[-1]
-        # print(f"similarity_scores: {similarity_scores}")
-        # print(f"xai_class_idx: {xai_class_idx}")
         frame_idx_with_max_score_for_target_anml = similarity_scores[1][0, xai_class_idx]
-        # print(f"frame_idx_with_max_score_for_target_anml: {frame_idx_with_max_score_for_target_anml}")
-
-        # patch box info
         box_xywh = p_positions[frame_idx_with_max_score_for_target_anml][::-1] + win_size  
         # patch loc resize to original 
         orig_box_xywh = self.resize_bbox_xywh(box_xywh, tuple(_image_pil.size), tuple(image_pil.size))
         # print(f"orig_box_xywh: {orig_box_xywh}")
         box_max_area = [orig_box_xywh[0], orig_box_xywh[1], orig_box_xywh[0] + orig_box_xywh[2], orig_box_xywh[1] + orig_box_xywh[3]]
         box_max_area = list((map(int, box_max_area)))
-        
         # boxes_xyxy = [box_max_area + list(boxes_xyxy_sliced[0])[4:]]
         boxes_xyxy_expaneded = box_max_area + [0.0, 0] # dummy box with the same size as patch, and confidence score from clip-cat similarity score, this is a hack to make it work with the rest of the code, but it can be improved by directly using the similarity score as confidence score without going through the get_boxes function, which is designed for gradcam heatmap based box generation, but it can still work as a coarse box to focus on the most promising region
-        
-        # show_image(util.PIL.Image.fromarray(self.draw_bbox_cv2(_image_arr, box_xywh, color=(0, 255, 0), thickness=2)), isplot=isplot)
-        
         image_arr = np.asarray(image_pil)
         box_max_area = list((map(int, boxes_xyxy_expaneded)))
         box_max_area[4] = boxes_xyxy_expaneded[4] # score
         image_arr_sliced = image_arr[box_max_area[1]:box_max_area[3], box_max_area[0]:box_max_area[2]]
         
-        # print(f"image_arr_sliced: {image_arr_sliced.shape}")
-        # show_image(image_arr_sliced, isplot=isplot)
-        
         fig_sliced, filtered_grad_heatmaps_sliced = self.get_xai_heatmap(image_arr_sliced, xai_class_idx,
                                                         isget_map=True, resize_wh=None, 
                                                         map_score_thr_dict=map_score_thr_dict, 
                                                         grad_mode=grad_mode)
-        
-        # show_image(fig_sliced, isplot=isplot)
-        # show_image(util.PIL.Image.fromarray(filtered_grad_heatmaps), isplot=isplot)
-        
         filtered_grad_heatmap = np.asarray(util.PIL.Image.fromarray(filtered_grad_heatmaps_sliced).resize(imsize))
-        
-        # fig = image_pil.copy()
-        # print(f"fig: {fig.size}")
         fig.paste(fig_sliced, (box_max_area[0], box_max_area[1]))
-        # print(f"fig after paste: {fig.size}")   
-        # show_image(fig_sliced, isplot=isplot)
-        # show_image(fig, isplot=isplot)
                         
         return fig, filtered_grad_heatmap
-                        
+    
+    @util.timer_eval
+    @util.process_logger                    
     def predict(self, image_rgb: Union[np.ndarray, util.PIL.Image], xai_cat_name: str = "gun shooting", 
                      bbox_conf: float = 0.85, iou: float = 0.5, ismultibox: bool = False, 
                      grad_mode: Literal["grad_eclip", "grad_cam"] = "grad_eclip", 
@@ -948,8 +895,6 @@ class GRAD4VAD_XAI_PPA():
         print(f"xai_cat_name: {xai_cat_name}, xai_class_idx: {xai_class_idx}")
 
         image_pil = util.PIL.Image.fromarray(image_rgb) if isinstance(image_rgb, np.ndarray) else image_rgb # rgb
-        # imsize = image_pil.size
-        # show_image(image_pil, isplot=isplot)
 
         if autofocus_method == "ppa_patch_clipcat_gradmap_xai":
             fig, filtered_grad_heatmap = self.ppa_patch_clipcat_gradmap_xai_focus(image_pil, xai_class_idx, 
