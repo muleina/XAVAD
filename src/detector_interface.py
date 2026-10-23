@@ -12,7 +12,6 @@ import os
 import torch
 import numpy as np
 import cv2
-import copy
 from typing import List, Tuple, Dict, Union, Optional, Literal, Any
 import utilities as util
 from config import config as cfg

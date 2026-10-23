@@ -24,10 +24,10 @@ from tqdm import tqdm
 import PIL
 from typing import List, Tuple, Dict, Union, Optional, Literal, Any
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from contextlib import contextmanager
 
 ###########################################
 # Util Classes
-
 class ProcTimer():
     """
     Utility class for measuring process time.
@@ -245,6 +245,17 @@ def timer_eval(func):
         return result
     return wrapper
 
+@contextmanager
+def silence_stdout():
+    """Context manager to suppress stdout print messages entirely."""
+    old_stdout = sys.stdout
+    sys.stdout = open(os.devnull, 'w')
+    try:
+        yield
+    finally:
+        sys.stdout.close()
+        sys.stdout = old_stdout
+        
 def clean_cuda(func):
     def wrapper(*args, **kwargs):
         gc.collect()
@@ -559,11 +570,12 @@ def show_video_on_nb(frame_list: list, video_meta: dict, input_format: str = "BG
                                                                 frame_list)), 
                                                                 fps=video_meta["fps"]
                                                                 )
-    return mpyVidObj.ipython_display(width=width, height=height, 
-                            fps=video_meta["fps"], 
-                            maxduration=video_meta["duration"] + 1, 
-                            autoplay=True
-                            )
+    with silence_stdout():
+        return mpyVidObj.ipython_display(width=width, height=height, 
+                                fps=video_meta["fps"], 
+                                maxduration=video_meta["duration"] + 1, 
+                                autoplay=True, logger=None
+                                )
 
 def save_json(filename: Optional[str] = None, data: Dict[Any, Any] = {}, filepath: Optional[str] = None, sort_keys: bool = True, verbose=0):
     """save dict as json 
@@ -620,7 +632,6 @@ def save_npdata(filename: Optional[str] = None, data: np.ndarray = None, filepat
     filepath = Path(filepath) if isinstance(filepath, str) else filepath
     if verbose: print('saving ', filepath, end='\r')
     np.save(filepath, data)
-
 
 def load_npdata(filename=None, filepath=None, verbose=0):
     if filename is not None:

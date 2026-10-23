@@ -1,5 +1,6 @@
 # =============================================================================
 # XAVAD: Unified Explainable Anonymized Video Anomaly Detection (VAD) System
+# ZSAD: Zero-Shot Anomaly Description Generation
 # =============================================================================
 # This code defines a Python class for integrating the VLM into a XAVAD. 
 # The class, ADXAIVLMInference, loads a specified VLM model variant, sets up preprocessing for prompts, and runs inference. 
@@ -10,7 +11,6 @@
 #####################################################################
 
 import json
-import sys, os
 import numpy as np
 from typing import List, Tuple, Dict, Union, Optional, Literal, Any
 import cv2

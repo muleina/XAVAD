@@ -1,5 +1,6 @@
 # =============================================================================
 # XAVAD: Unified Explainable Anonymized Video Anomaly Detection (VAD) System
+# ZSAM: Zero-Shot Anomaly HeatMap Generation
 # =============================================================================
 # This code defines a Python class for integrating the Grad-ECLIP model into a XAVAD. 
 # The class, GRAD4VAD_XAI, loads a specified CLIP model variant, sets up preprocessing for images, and prepares video frame, and extractes anomlay heatmap
@@ -8,12 +9,9 @@
 # Email: muleina2000@gmail.com
 # Date: October 2025
 #####################################################################
-import argparse
-import sys, gc, os, io
-import numpy as np, pandas as pd
-import torch, gc, cv2
+import numpy as np
+import torch, cv2
 import matplotlib.pyplot as plt
-import moviepy.editor as mpy
 import clip as MULTI_MODAL_CLIP
 import torch.nn.functional as F
 import torchvision.transforms as T
@@ -94,14 +92,12 @@ def visualize_grad_cam_per_image(img_pil, filtered_grad_heatmaps, fig_titles=Non
     fig = util.plot_image_grid(frame_list, fig_rows, len(filtered_grad_heatmaps)//fig_rows, return_fig=True, border=0 if len(filtered_grad_heatmaps) <= 1 else 1, color_format="rgb")
     return fig
 
-
 def show_image(fig_pil, isplot=True):
     if isplot:
         plt.imshow(fig_pil)
         plt.grid(False) 
         plt.axis('off')
         plt.show()
-
 
 class GRAD4VAD_XAI():
     """  XAI MAP generating class based in GRAD-ECLIP for video anomaly detection explainability.
@@ -377,7 +373,6 @@ class GRAD4VAD_XAI():
         filtered_grad_heatmaps = self.prepare_final_heatmap(img_pil, grad_heatmaps, **kwargs)
         return grad_heatmaps, filtered_grad_heatmaps
         
-        
 class ADXAIMAPDetector():
     
     def __init__(self, objVADXAIModel, device: Literal["cuda", "cpu"] = "cuda", **kwargs):
@@ -422,7 +417,6 @@ class ADXAIMAPDetector():
             return fig, filtered_grad_heatmaps
         return fig
 
- 
 class GRAD4VAD_XAI_PPA():
     
     def __init__(self, xai_clip_modelname: str = "ViT-L/14",  device: Literal["cuda", "cpu"] = "cuda", **kwargs):
