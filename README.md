@@ -1,6 +1,9 @@
 <div>
-    <!-- <a href="https://github.com/muleina/XAVAD/actions/workflows/python-package-conda.yml"><img src="https://github.com/muleina/XAVAD/actions/workflows/python-package-conda.yml/badge.svg" alt="XAVAD CI Anaconda"></a> -->
-    <a href=https://github.com/muleina/XAVAD/blob/master/notebook/XAVAD_E2E.ipynb><img src="https://img.shields.io/badge/Notebook-XAVAD-blue" alt="XAVAD NB"></a>
+    <a href="https://github.com/muleina/XAVAD/actions/workflows/python-package-conda.yml"><img src="https://github.com/muleina/XAVAD/actions/workflows/python-package-conda.yml/badge.svg" alt="XAVAD CI Anaconda"></a>
+</div>
+
+</div>
+<a href=https://github.com/muleina/XAVAD/blob/master/notebook/XAVAD_E2E.ipynb><img src="https://img.shields.io/badge/Notebook-XAVAD-blue" alt="XAVAD NB"></a>
     <a href="https://colab.research.google.com/github/muleina/XAVAD/blob/master/notebook/XAVAD_E2E.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open XAVAD in Colab"></a>
     <a href="https://ai4citizens.uia.no/app_dashboard"><img src="https://img.shields.io/badge/Live-Demo-blue" alt="XAVAD DEMO"></a>
     <!-- <a href="https://arxiv.org/abs/"><img src="https://img.shields.io/badge/Preprint-aXriv-red" alt="XAVAD PAPER"></a> -->
