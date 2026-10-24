@@ -1,11 +1,12 @@
-name: py311_xavad
+name: xavad
 channels:
   - conda-forge
   - pytorch
   - nvidia
   - defaults
 dependencies:
-  - _anaconda_depends=2023.09=py311_mkl_1
+  - python=3.11
+  - pip
   - pip:
       - accelerate==1.13.0
       - git+https://github.com/openai/CLIP.git
@@ -33,4 +34,3 @@ dependencies:
       - tqdm==4.65.0
       - transformers==5.15.1
       - ultralytics==8.4.52
-prefix: /home/mulugetawa/anaconda3/envs/py311_xavad
