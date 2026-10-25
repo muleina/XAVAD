@@ -147,11 +147,11 @@ Anomaly context description using lightweight VLM models, leveraged with our str
 
 ## Computational Cost Analysis
 
-GPU processing time and memory cost on a system with 32 AMD EPYC Milan processors, 64~GB RAM, and a 40~GB Nvidia A100D-40C.
-- Our PPA achieves $4\times$ memory efficiency and $30\%$ faster processing time while improving ZSAM AP accuracy by $4\text{--}6 \times$ compared to Grad-ECLIP. 
+GPU time and memory cost on a system with 32 AMD EPYC Milan Processors, 64GB RAM, and a 40GB Nvidia A100D-40C.
+- Our PPA achieves $4 \times$ memory efficiency and 30% faster time while improving ZSAM AP accuracy by $4\text{--}6 \times$ compared to Grad-ECLIP. 
 - In contrast, simple patching with Grad-ECLIP increases the cost by $1.8 \times$ and $6.8 \times$, respectively.
 - YOLO is the most memory-efficient, and RF-DETR is the fastest among the AN mask generation models. 
-- Despite substantial accuracy gains of the GDSN in ZSAM, it has a relatively higher memory cost (due to large SAM models), while the difference in speed remains marginal.
+- Despite substantial accuracy gains of the GDSN in ZSAM, it has a relatively higher memory cost (due to large SAM models), while the difference in speed remains marginal compared to YOLO-X.
 - The InternVL3.5 VLM models maintain fast inference and promising ZSAD accuracy even with the larger model sizes.
 
 <img src="./results/result_table_11_cost_analysis.png" alt="ZS XAI and AN Computational Cost" title="Per-Inference Computational Cost" width=100% height=100%>
