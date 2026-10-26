@@ -16,6 +16,10 @@ Official implementation of "Guided Zero-Shot Anomaly Explanation for Anonymized 
 
 The XAVAD offers zero-shot multi-facet anomaly XAI for anonymized (AN) video anomaly detection (VAD). 
 
+System highlight of a unified, explainable, full-body privacy-protecting VAD system.
+
+<img src="./docs/fig1_xavad_system_design.png" alt="XAVAD System Design" title="XAVAD System Highlight" width=100% height=100%>
+
 ## Highlights
 
 - Explainable and privacy-protecting VAD will build transparency and trust, and facilitate the adoption of computer vision systems, including safety and security monitoring.  
@@ -23,13 +27,8 @@ The XAVAD offers zero-shot multi-facet anomaly XAI for anonymized (AN) video ano
 - Adopts a multimodal CLIP embedding for videos, using improved LLM-assisted prompting and pool-scoring mechanisms across a sequence of video frames for alert-type identification. 
 - Employs Grad-ECLIP to generate heatmaps for visual alert localization, leveraging computation and accuracy through a novel prompt-guided patching autofocus mechanism. 
 - Integrates a VLM to generate anomaly descriptions through curated prompt engineering.  
-- XAVAD demonstrates a substantial gain over SOTA approaches and provides insights into privacy protection (full-body visual anonymization) trade-offs in XAI for VAD. 
-
-System highlight of unified explainable, full-body privacy-protecting VAD system.
-
-<img src="./docs/fig1_xavad_system_design.png" alt="XAVAD System Design" title="XAVAD System Highlight" width=100% height=100%>
-
-
+- XAVAD demonstrates a substantial gain over SOTA approaches and provides insights into privacy protection (full-body visual anonymization) trade-offs in XAI for VAD.
+- 
 ## System Design of the XAVAD  
 
 XAVAD System Pipeline Diagram: Initial Setup Stage
