@@ -151,7 +151,7 @@ GPU time and memory cost on a system with 32 AMD EPYC Milan Processors, 64GB RAM
 - In contrast, simple patching with Grad-ECLIP increases the cost by $1.8 \times$ and $6.8 \times$, respectively.
 - YOLO is the most memory-efficient, and RF-DETR is the fastest among the AN mask generation models. 
 - Despite substantial accuracy gains of the GDSN in ZSAM, it has a relatively higher memory cost (due to large SAM models), while the difference in speed remains marginal compared to YOLO-X.
-- The InternVL3.5 VLM models maintain fast inference and promising ZSAD accuracy even with the larger model sizes.
+- The InternVL3.5 VLMs maintain fast inference and promising ZSAD accuracy.
 
 <img src="./results/result_table_11_cost_analysis.png" alt="ZS XAI and AN Computational Cost" title="Per-Inference Computational Cost" width=60% height=100%>
 
