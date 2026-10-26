@@ -153,7 +153,7 @@ GPU time and memory cost on a system with 32 AMD EPYC Milan Processors, 64GB RAM
 - Despite substantial accuracy gains of the GDSN in ZSAM, it has a relatively higher memory cost (due to large SAM models), while the difference in speed remains marginal compared to YOLO-X.
 - The InternVL3.5 VLM models maintain fast inference and promising ZSAD accuracy even with the larger model sizes.
 
-<img src="./results/result_table_11_cost_analysis.png" alt="ZS XAI and AN Computational Cost" title="Per-Inference Computational Cost" width=100% height=100%>
+<img src="./results/result_table_11_cost_analysis.png" alt="ZS XAI and AN Computational Cost" title="Per-Inference Computational Cost" width=60% height=100%>
 
 
 ## BibTeX Citation
