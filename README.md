@@ -6,7 +6,7 @@
 <a href=https://github.com/muleina/XAVAD/blob/master/notebook/XAVAD_E2E.ipynb><img src="https://img.shields.io/badge/Notebook-XAVAD-blue" alt="XAVAD NB"></a>
     <a href="https://colab.research.google.com/github/muleina/XAVAD/blob/master/notebook/XAVAD_E2E.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open XAVAD in Colab"></a>
     <a href="https://ai4citizens.uia.no/app_dashboard"><img src="https://img.shields.io/badge/Live-Demo-blue" alt="XAVAD DEMO"></a>
-    <!-- <a href="https://arxiv.org/abs/"><img src="https://img.shields.io/badge/Preprint-aXriv-red" alt="XAVAD PAPER"></a> -->
+<a href="https://arxiv.org/abs/2610.32073"><img src="https://img.shields.io/badge/Preprint-aXriv-red" alt="XAVAD PAPER"></a>
     <!-- <a href="https://github.com/muleina/XAVAD/blob/master/results/Supplementary_material.pdf"><img src="https://img.shields.io/badge/Paper-Supplementary-red" alt="XAVAD PAPER Supplementary"></a> -->
 </div>
 
@@ -164,7 +164,7 @@ If you employ any part of the study or the code, please kindly cite the followin
 @article{asres20266xavd,
   title={Guided Zero-Shot Anomaly Explanation for Anonymized Crowd Video Monitoring: Context, Categorization, and Spatial Localization},
   author={Asres, Mulugeta Weldezgina and Jiao, Lei and Omlin, Christian Walter},
-  journal={arXiv preprint arXiv:},
+  journal={arXiv:2610.32073},
   year={2026}
 }
 ```
