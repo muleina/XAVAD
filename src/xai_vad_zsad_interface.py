@@ -10,6 +10,7 @@
 # Date: October 2025
 #####################################################################
 
+import os
 import json
 import numpy as np
 from typing import List, Tuple, Dict, Union, Optional, Literal, Any
@@ -20,6 +21,8 @@ from ollama import chat as ollama_chat
 import utilities as util
 
 OLLAMA_URL = "http://localhost:11434/api/chat"
+current_path = os.path.abspath(os.path.dirname(__file__))
+src_path = os.path.dirname(current_path)
 
 class AnalysisScore(BaseModel):
     anomaly_status: str = Field(description="The alert status flag of anomaly detection")
@@ -61,7 +64,8 @@ class ADXAIVLMInference():
                         "num_predict": kwargs.get("num_predict", 50)
                     }
         
-        self.prompt_json = util.load_json(filename=self.prompt_json_filename, filepath="/home/mulugetawa/AI4CITIZENS/PACA/src/model/vlm")
+        print(current_path)
+        self.prompt_json = util.load_json(filename=self.prompt_json_filename, filepath=rf"{current_path}/model/vlm")
         
         self.prompt_user_questions = self.prompt_json["prompt_user"]
         self.prompt_system = {"role": "system", "content": self.prompt_json["prompt_system"]}

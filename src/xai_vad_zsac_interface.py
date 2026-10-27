@@ -47,6 +47,7 @@ class CLIP4VAD_XAI():
         self.similarity_metric = similarity_metric
         self.prompt_concept_json_filepath = prompt_concept_json_filepath
         self.prompt_feature_np_filepath = prompt_feature_np_filepath 
+        self.baseline_min_thr = kwargs.get("baseline_min_thr", 0.2)
         self.isreturn_max_indices = kwargs.get("isreturn_max_indices", False)
         self.clip_model, self.clip_image_preprocess = MULTI_MODAL_CLIP.load(clip_modelname)
         self.clip_model = self.clip_model.to(self.device).eval()
@@ -62,7 +63,7 @@ class CLIP4VAD_XAI():
         print("Vocab size:", self.vocab_size)
         print("Pooling method:", self.pooling_method)
         print("CLIP image preprocess function: ", self.clip_image_preprocess)
-        self.anml_class_names, self.anml_class_prompt_clip_features_norm = self.load_clip_anml_prompt_features()
+        self.anml_class_names, self.anml_class_prompt_clip_features_norm, self.normal_category_idx = self.load_clip_anml_prompt_features()
 
     def load_clip_anml_prompt_features(self):
         """ Load CLIP prompt features for video anomaly detection.
@@ -87,7 +88,8 @@ class CLIP4VAD_XAI():
         self.anml_type_prompt_concept_dict = anml_type_prompt_concept_dict
         print(f"CLIP Prompt Anomaly Categories: {list(self.anml_type_prompt_concept_dict.keys())}")
         print(f"anml_class_prompt_clip_features_norm: {anml_class_prompt_clip_features_norm.shape}")
-        return anml_class_names, anml_class_prompt_clip_features_norm
+        normal_category_idx = [i for i, (k, _) in enumerate(self.anml_type_prompt_concept_dict.items()) if "normal" in k.lower() or "nonviolence" in k.lower()][-1]
+        return anml_class_names, anml_class_prompt_clip_features_norm, normal_category_idx
     
     # @util.timer_eval
     # @util.process_logger
@@ -185,7 +187,13 @@ class CLIP4VAD_XAI():
             similarity_max_indices = similarity_max_indices.detach().cpu()
         else:
             similarity_scores = video_clip_features_norm @ self.anml_class_prompt_clip_features_norm
-            
+        
+        # if no category is above baseline_min_thr, set the class as normal.
+        max_vals, max_indices = similarity_scores.max(dim=-1)
+        # print(f"max_vals: {max_vals}")
+        # print(f"max_indices: {max_indices}")
+        similarity_scores[max_vals < self.baseline_min_thr, self.normal_category_idx] = 1.0 # label it as normal.
+        
         class_probs = (100.0 * similarity_scores).softmax(dim=-1) # to match classification final layer
         top_anml_class_top_probs, top_anml_class_top_labels = class_probs.detach().cpu().topk(top_k, dim=-1)
         similarity_scores = similarity_scores.detach().cpu()

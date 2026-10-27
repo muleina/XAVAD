@@ -520,7 +520,7 @@ def remove_pad(image: np.ndarray,
 
 def save_figure(fig,
                 filename: str,
-                filedirpath: str,
+                filepath: str,
                 isshow: bool = False,
                 issave: bool = True,
                 dpi: int = 300,
@@ -539,8 +539,8 @@ def save_figure(fig,
         format (str): File format (e.g., ".jpg").
     """
     if issave:
-        filepath = rf"{filedirpath}/{filename}.{format}"
-        print("saving to ", filedirpath)
+        filepath = rf"{filepath}/{filename}.{format}"
+        print("saving to ", filepath)
         fig.savefig(Path(filepath), dpi=dpi, bbox_inches='tight')
         if isshow:
             plt.show(fig)
@@ -550,7 +550,7 @@ def save_figure(fig,
     if isshow:
         plt.show(fig)
 
-def save_video(frame_list: list, fps: int, filename: str, filedirpath: str) -> None:
+def save_video(frame_list: list, fps: int, filename: str, filepath: str) -> None:
     """
     Save a list of frames as a video file.
     Args:
@@ -559,12 +559,12 @@ def save_video(frame_list: list, fps: int, filename: str, filedirpath: str) -> N
         filename (str): Name of the video file.
         filedirpath (str): Directory to save the video file.
     """
-    filepath = rf'{filedirpath}/{filename}.mp4'
+    filepath = rf'{filepath}/{filename}.mp4'
     print("saving video to ", filepath)
     mpyVidObj = mpy.ImageSequenceClip(frame_list, fps=fps)
     mpyVidObj.write_videofile(filepath, fps=fps, codec="libx264")
     mpyVidObj.close()
-
+    
 def show_video_on_nb(frame_list: list, video_meta: dict, input_format: str = "BGR", width :int = 480, height: int = 360) -> None:
     mpyVidObj = mpy.ImageSequenceClip(list(map(lambda x: cv2.cvtColor(x, cv2.COLOR_BGR2RGB).astype("uint8") if input_format == "BGR" else x, 
                                                                 frame_list)), 
@@ -576,7 +576,7 @@ def show_video_on_nb(frame_list: list, video_meta: dict, input_format: str = "BG
                                 maxduration=video_meta["duration"] + 1, 
                                 autoplay=True, logger=None
                                 )
-
+        
 def save_json(filename: Optional[str] = None, data: Dict[Any, Any] = {}, filepath: Optional[str] = None, sort_keys: bool = True, verbose=0):
     """save dict as json 
 

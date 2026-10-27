@@ -128,15 +128,6 @@ class GRAD4VAD_XAI():
                 ToTensor(),
                 Normalize((0.48145466, 0.4578275, 0.40821073), (0.26862954, 0.26130258, 0.27577711)),
             ])
-                
-        # print("Model parameters:", f"{np.sum([int(np.prod(p.shape)) for p in self.clip_model.parameters()])}")
-        # print("Input resolution:", self.clip_input_resolution)
-        # print("Clip kernel size:", self.clip_ksize)
-        # print("Context length:", self.context_length)
-        # print("Vocab size:", self.vocab_size)
-
-        # Image Preprocessing
-        # print("CLIP image preprocess function (not used): ", self.clip_image_preprocess)
     
     def clip_encode_dense(self, x, n):
         def attention_layer(q, k, v, num_heads=1):
