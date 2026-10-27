@@ -1,9 +1,12 @@
 <div>
-    <!-- <a href="https://github.com/muleina/XAVAD/actions/workflows/python-package-conda.yml"><img src="https://github.com/muleina/XAVAD/actions/workflows/python-package-conda.yml/badge.svg" alt="XAVAD CI Anaconda"></a> -->
-    <a href=https://github.com/muleina/XAVAD/blob/master/notebook/XAVAD_E2E.ipynb><img src="https://img.shields.io/badge/Notebook-XAVAD-blue" alt="XAVAD NB"></a>
+    <a href="https://github.com/muleina/XAVAD/actions/workflows/python-package-conda.yml"><img src="https://github.com/muleina/XAVAD/actions/workflows/python-package-conda.yml/badge.svg" alt="XAVAD CI Anaconda"></a>
+</div>
+
+</div>
+<a href=https://github.com/muleina/XAVAD/blob/master/notebook/XAVAD_E2E.ipynb><img src="https://img.shields.io/badge/Notebook-XAVAD-blue" alt="XAVAD NB"></a>
     <a href="https://colab.research.google.com/github/muleina/XAVAD/blob/master/notebook/XAVAD_E2E.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open XAVAD in Colab"></a>
     <a href="https://ai4citizens.uia.no/app_dashboard"><img src="https://img.shields.io/badge/Live-Demo-blue" alt="XAVAD DEMO"></a>
-    <!-- <a href="https://arxiv.org/abs/"><img src="https://img.shields.io/badge/Preprint-aXriv-red" alt="XAVAD PAPER"></a> -->
+<a href="https://arxiv.org/abs/2610.32073"><img src="https://img.shields.io/badge/Preprint-aXriv-red" alt="XAVAD PAPER"></a>
     <!-- <a href="https://github.com/muleina/XAVAD/blob/master/results/Supplementary_material.pdf"><img src="https://img.shields.io/badge/Paper-Supplementary-red" alt="XAVAD PAPER Supplementary"></a> -->
 </div>
 
@@ -13,21 +16,24 @@ Official implementation of "Guided Zero-Shot Anomaly Explanation for Anonymized 
 
 The XAVAD offers zero-shot multi-facet anomaly XAI for anonymized (AN) video anomaly detection (VAD). 
 
-## Highlights
-
-- Explainable and privacy-protecting VAD will build transparency and trust, and facilitate the adoption of computer vision systems, including safety and security monitoring.  
-- XAVAD presents a unified approach that integrates flexible zero-shot methods for anomaly type categorization, visual localization, and scene context description. 
-- Adopts a multimodal CLIP embedding for videos, using improved LLM-assisted prompting and pool-scoring mechanisms across a sequence of video frames for alert-type identification. 
-- Employs Grad-ECLIP to generate heatmaps for visual alert localization, leveraging computation and accuracy through a novel prompt-guided patching autofocus mechanism. 
-- Integrates a VLM to generate anomaly descriptions through curated prompt engineering.  
-- XAVAD demonstrates a substantial gain over SOTA approaches and provides insights into privacy protection (full-body visual anonymization) trade-offs in XAI for VAD. 
-
-System highlight of unified explainable, full-body privacy-protecting VAD system.
+System highlight: a unified, explainable, and full-body privacy-protecting VAD system.
 
 <img src="./docs/fig1_xavad_system_design.png" alt="XAVAD System Design" title="XAVAD System Highlight" width=100% height=100%>
 
+## XAVAD Highlights 
 
-## System Design of the XAVAD  
+- Explainable and privacy-protecting VAD will build transparency and trust in safety and security monitoring computer vision systems.  
+- XAVAD presents unified zero-shot methods for anomaly type categorization, visual localization, and scene context description. 
+- Proposes open-vocabulary segmentation (GDSN) that mitigates weapon occlusions during full-masking anonymization.
+- Proposes LLM-assisted prompting with pool-scoring mechanisms over video frames for improved alert-type identification using CLIP. 
+- Introduces a novel prompt-guided patching autofocus (PPA) mechanism for Grad-ECLIP to generate heatmaps for visual alert localization, with substantial computation and accuracy gains. 
+- Proposes curated VAD-AN-XAI-aware prompt engineering for VLMs to generate anomaly descriptions robustly.  
+- Demonstrates a considerable gain over SOTA approaches.
+-  Delivers insights into privacy protection trade-offs in XAI for VAD.
+
+XAVAD focuses on XAI for anonymized VAD, and a detailed study on anonymization and VAD can be found in LA3D ([repo](https://github.com/muleina/LA3D), [paper](https://ieeexplore.ieee.org/document/11231379)).
+
+## System Design of XAVAD  
 
 XAVAD System Pipeline Diagram: Initial Setup Stage
 
@@ -55,7 +61,7 @@ XAVAD System Pipeline Diagram: Inference Stage
 
 ## Resources
 
-We thank and give credit to the public data sets and source codes for the models listed below.
+We thank and credit the public datasets and source codes listed below.
 
 - Data sets
     - Video Anomaly Detection:
@@ -79,18 +85,21 @@ We thank and give credit to the public data sets and source codes for the models
 
 ## Installation
    
-1. Clone repository: `git clone https://github.com/muleina/XAVAD.git && cd XAVAD`.
+1. Clone repository:
+   ```
+   git clone https://github.com/muleina/XAVAD.git && cd XAVAD
+   ```
+   
+3. Install dependencies:`Ollama`, following [Windowws](https://ollama.com/download/windows), [macOs](https://ollama.com/download/mac), and [Linux](https://ollama.com/download/linux).
 
-2. Install dependencies:`Ollama`, following [Windowws](https://ollama.com/download/windows), [macOs](https://ollama.com/download/mac), and [Linux](https://ollama.com/download/linux).
+4. Recommend setting up and installing CUDA PyTorch with [Anaconda](https://www.anaconda.com/) following the [PyTorch installation instructions](https://pytorch.org/get-started/locally/).
 
-3. Recommend to setup and install CUDA pytorch with [anaconda](https://www.anaconda.com/) following the [pytorch installation instructions](https://pytorch.org/get-started/locally/).
-
-4. Anaconda install options using yaml
+5. Anaconda install options using YAML
     ```
     conda env create -f environment.yaml
     ```
 
-5. Alternatively, Install using `setup.py` in an existing enviroment:
+6. Alternatively, install using `setup.py` in an existing environment:
     ```
     pip install -e .
     ```
@@ -104,14 +113,14 @@ We thank and give credit to the public data sets and source codes for the models
 
 ## Notebooks
 
-We have also provided notebooks for step-wise demo of the XAVAD pipelines using different models and data sources. 
+We  provide notebooks for step-wise demos of the XAVAD pipelines using different models and data sources. 
 -  [Zero-Shot Occlusion Robust Anonymization] <a href="https://colab.research.google.com/github/muleina/XAVAD/blob/master/notebook/ZSAN_GDSN.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open XAVAD in Colab"></a>
 -  [Zero-Shot Scalable with Efficiency Anomaly Heatmap Localization ] <a href="https://colab.research.google.com/github/muleina/XAVAD/blob/master/notebook/ZSAM_PPA_GRAD_ECLIP.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open XAVAD in Colab"></a>
 -  [Zero-Shot VAD XAI End-to-End (XAVAD)] <a href=https://github.com/muleina/XAVAD/blob/master/notebook/XAVAD_E2E.ipynb><img src="https://img.shields.io/badge/Notebook-XAVAD-blue" alt="XAVAD NB"></a>  <a href="https://colab.research.google.com/github/muleina/XAVAD/blob/master/notebook/XAVAD_E2E.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open XAVAD in Colab"></a>
 
 ## Anomaly XAI Results
 
-Cross-dataset empirical and qualitative evaluations demonstrate that our approaches have significantly outperformed existing SOTA benchmark approaches.
+Cross-dataset empirical and qualitative evaluations demonstrate that XAVAD has significantly outperformed existing SOTA benchmark approaches.
 
 ### Zero-Shot Anomaly Categorization
 
@@ -119,7 +128,7 @@ Our LLM-Assisted Prompting on CLIP enhances the performance of anomaly type clas
 
 <img src="./results/result_fig_4_zsac_xd_lineplot.png" alt="" title="ZSAC: XD Dataset" width=100% height=100%>
 
-Ablation study on our Maximum Score Pooling and LLM-Assisted Prompting.
+Ablation study on Maximum Score Pooling and LLM-Assisted Prompting.
 
 <img src="./results/result_table_3_zsac_xd_ablation.png" alt="" title="ZSAC: XD Dataset" title="ZSAC: XD Dataset"  width=100% height=100%>
 
@@ -129,7 +138,7 @@ Anomaly heatmap localization using Grad-ECLIP, improved with our Prompt-Guided P
 
 <img src="./results/result_fig_8_zsam_simuletic_compare_with_eclip_vis.png" alt="ZSAM: Simuletic Dataset" title="ZSAM: Simuletic Dataset" width=100% height=100%>
 
-Anomaly localization in the event of weapon occlusion after AN, improved with our Zero-Shot Person Segmentation Model (GDSN).
+Anomaly localization for weapon occlusion after AN, improved with our Zero-Shot Person Segmentation Model (GDSN).
 
 <img src="./results/result_fig_8_zsam_simuletic_lineplot.png" alt="AN-ZSAM: Simuletic Dataset" title="AN-ZSAM: Simuletic Dataset" width=100% height=100%>
 
@@ -144,14 +153,14 @@ Anomaly context description using lightweight VLM models, leveraged with our str
 
 ## Computational Cost Analysis
 
-GPU processing time and memory cost on a system with 32 AMD EPYC Milan processors, 64~GB RAM, and a 40~GB Nvidia A100D-40C.
-- Our PPA achieves $4\times$ memory efficiency and $30\%$ faster processing time while improving ZSAM AP accuracy by $4\text{--}6 \times$ compared to Grad-ECLIP. 
+GPU time and memory cost on a system with 32 AMD EPYC Milan Processors, 64 GB RAM, and a 40 GB NVIDIA A100D-40C.
+- Our PPA achieves $4 \times$ memory efficiency and 30% faster time while improving ZSAM AP by $4\text{--}6 \times$ compared to Grad-ECLIP. 
 - In contrast, simple patching with Grad-ECLIP increases the cost by $1.8 \times$ and $6.8 \times$, respectively.
 - YOLO is the most memory-efficient, and RF-DETR is the fastest among the AN mask generation models. 
-- Despite substantial accuracy gains of the GDSN in ZSAM, it has a relatively higher memory cost (due to large SAM models), while the difference in speed remains marginal.
-- The InternVL3.5 VLM models maintain fast inference and promising ZSAD accuracy even with the larger model sizes.
+- Despite substantial accuracy gains of the GDSN in ZSAM, it has a relatively higher memory cost (due to large SAM models), while the difference in speed remains marginal compared to YOLO-X.
+- The InternVL3.5 VLMs maintain fast inference and promising ZSAD accuracy.
 
-<img src="./results/result_table_11_cost_analysis.png" alt="ZS XAI and AN Computational Cost" title="Per-Inference Computational Cost" width=100% height=100%>
+<img src="./results/result_table_11_cost_analysis.png" alt="ZS XAI and AN Computational Cost" title="Per-Inference Computational Cost" width=60% height=100%>
 
 
 ## BibTeX Citation
@@ -161,7 +170,7 @@ If you employ any part of the study or the code, please kindly cite the followin
 @article{asres20266xavd,
   title={Guided Zero-Shot Anomaly Explanation for Anonymized Crowd Video Monitoring: Context, Categorization, and Spatial Localization},
   author={Asres, Mulugeta Weldezgina and Jiao, Lei and Omlin, Christian Walter},
-  journal={arXiv preprint arXiv:},
+  journal={arXiv:2610.32073},
   year={2026}
 }
 ```
