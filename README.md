@@ -3,8 +3,8 @@
 </div>
 
 </div>
-<a href=https://github.com/muleina/XAVAD/blob/master/notebook/XAVAD_E2E.ipynb><img src="https://img.shields.io/badge/Notebook-XAVAD-blue" alt="XAVAD NB"></a>
-    <a href="https://colab.research.google.com/github/muleina/XAVAD/blob/master/notebook/XAVAD_E2E.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open XAVAD in Colab"></a>
+<a href=https://github.com/muleina/XAVAD/blob/master/notebook/XAVAD_E2E_Generic.ipynb><img src="https://img.shields.io/badge/Notebook-XAVAD-blue" alt="XAVAD NB"></a>
+    <a href="https://colab.research.google.com/github/muleina/XAVAD/blob/master/notebook/XAVAD_E2E_Generic.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open XAVAD in Colab"></a>
     <a href="https://ai4citizens.uia.no/app_dashboard"><img src="https://img.shields.io/badge/Live-Demo-blue" alt="XAVAD DEMO"></a>
 <a href="https://arxiv.org/abs/2610.32073"><img src="https://img.shields.io/badge/Preprint-aXriv-red" alt="XAVAD PAPER"></a>
     <!-- <a href="https://github.com/muleina/XAVAD/blob/master/results/Supplementary_material.pdf"><img src="https://img.shields.io/badge/Paper-Supplementary-red" alt="XAVAD PAPER Supplementary"></a> -->
@@ -116,7 +116,8 @@ We thank and credit the public datasets and source codes listed below.
 We  provide notebooks for step-wise demos of the XAVAD pipelines using different models and data sources. 
 -  [Zero-Shot Occlusion Robust Anonymization] <a href="https://colab.research.google.com/github/muleina/XAVAD/blob/master/notebook/ZSAN_GDSN.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open XAVAD in Colab"></a>
 -  [Zero-Shot Scalable with Efficiency Anomaly Heatmap Localization ] <a href="https://colab.research.google.com/github/muleina/XAVAD/blob/master/notebook/ZSAM_PPA_GRAD_ECLIP.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open XAVAD in Colab"></a>
--  [Zero-Shot VAD XAI End-to-End (XAVAD)] <a href=https://github.com/muleina/XAVAD/blob/master/notebook/XAVAD_E2E.ipynb><img src="https://img.shields.io/badge/Notebook-XAVAD-blue" alt="XAVAD NB"></a>  <a href="https://colab.research.google.com/github/muleina/XAVAD/blob/master/notebook/XAVAD_E2E.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open XAVAD in Colab"></a>
+-  [Zero-Shot VAD XAI: End-to-End (XAVAD) on VAD Data] <a href=https://github.com/muleina/XAVAD/blob/master/notebook/XAVAD_E2E.ipynb><img src="https://img.shields.io/badge/Notebook-XAVAD-blue" alt="XAVAD NB"></a>  <a href="https://colab.research.google.com/github/muleina/XAVAD/blob/master/notebook/XAVAD_E2E.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open XAVAD in Colab"></a>
+-  [Zero-Shot VAD XAI: End-to-End (XAVAD) on Synthetic Demo Data] <a href=https://github.com/muleina/XAVAD/blob/master/notebook/XAVAD_E2E_Generic><img src="https://img.shields.io/badge/Notebook-XAVAD-blue" alt="XAVAD NB"></a>  <a href="https://colab.research.google.com/github/muleina/XAVAD/blob/master/notebook/XAVAD_E2E_Generic.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open XAVAD in Colab"></a>
 
 ## Anomaly XAI Results
 
