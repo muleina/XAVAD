@@ -1,0 +1,10 @@
+{
+    "pred_zsac_topk": {
+        "person falling": 0.47211,
+        "normal_activity": 0.18844,
+        "vandalism": 0.15152
+    },
+    "pred_anml_category": "person falling",
+    "pred_anml_category_idx": 11,
+    "condidate_localized_frame_idx": 14
+}

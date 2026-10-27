@@ -1,0 +1,10 @@
+{
+    "pred_zsac_topk": {
+        "fight": 0.50279,
+        "shooting": 0.27596,
+        "abuse": 0.11077
+    },
+    "pred_anml_category": "fight",
+    "pred_anml_category_idx": 4,
+    "condidate_localized_frame_idx": 1
+}

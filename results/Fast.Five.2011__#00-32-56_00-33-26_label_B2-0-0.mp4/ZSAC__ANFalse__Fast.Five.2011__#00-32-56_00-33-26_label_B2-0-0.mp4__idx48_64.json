@@ -1,0 +1,10 @@
+{
+    "pred_zsac_topk": {
+        "abuse": 0.46202,
+        "fight": 0.45864,
+        "riot": 0.03338
+    },
+    "pred_anml_category": "abuse",
+    "pred_anml_category_idx": 1,
+    "condidate_localized_frame_idx": 4
+}

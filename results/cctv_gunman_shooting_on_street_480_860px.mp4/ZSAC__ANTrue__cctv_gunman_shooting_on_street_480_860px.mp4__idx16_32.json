@@ -1,0 +1,10 @@
+{
+    "pred_zsac_topk": {
+        "gun_shooting": 0.76561,
+        "gun_holding": 0.17829,
+        "vandalism": 0.04207
+    },
+    "pred_anml_category": "gun_shooting",
+    "pred_anml_category_idx": 6,
+    "condidate_localized_frame_idx": 12
+}

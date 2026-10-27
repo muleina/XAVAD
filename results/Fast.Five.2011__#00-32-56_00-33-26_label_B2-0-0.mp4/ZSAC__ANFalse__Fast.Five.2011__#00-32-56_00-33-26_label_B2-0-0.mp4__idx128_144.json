@@ -1,0 +1,10 @@
+{
+    "pred_zsac_topk": {
+        "abuse": 0.68509,
+        "nonviolence": 0.13539,
+        "shooting": 0.11683
+    },
+    "pred_anml_category": "abuse",
+    "pred_anml_category_idx": 1,
+    "condidate_localized_frame_idx": 6
+}

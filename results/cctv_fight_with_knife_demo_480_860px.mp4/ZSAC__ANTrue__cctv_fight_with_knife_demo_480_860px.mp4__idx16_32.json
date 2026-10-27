@@ -1,0 +1,10 @@
+{
+    "pred_zsac_topk": {
+        "knife_stabbing": 0.54766,
+        "violence": 0.26621,
+        "normal_activity": 0.06913
+    },
+    "pred_anml_category": "knife_stabbing",
+    "pred_anml_category_idx": 8,
+    "condidate_localized_frame_idx": 0
+}
